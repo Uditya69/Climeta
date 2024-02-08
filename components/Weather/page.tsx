@@ -22,6 +22,7 @@ interface WeatherData {
   };
   weather: {
     main: string;
+    icon: string;
   }[];
 }
 
@@ -30,7 +31,7 @@ function weather() {
 
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
   useEffect(() => {
-    const token = "1411b23f65d3a8f226bf29268581fbe9";
+    const token = process.env.WEATHER_API;
     const api =
       "https://api.openweathermap.org/data/2.5/weather?q=" +
       city +
@@ -54,11 +55,14 @@ function weather() {
     if (newCity) setCity(newCity);
   }
 
+
   return (
     <div>
       <div className="">
         {weatherData && (
-          <div className="flex flex-col items-center m-auto gap-3 border p-5 border-gray-600 rounded-2xl backdrop-blur-xl">
+          <div className="flex flex-col items-center m-auto gap-3 border p-5 border-gray-600 rounded-2xl bg-black bg-opacity-30 backdrop-blur-sm">
+            <div><img src={`https://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`} alt="" className="" /> </div>
+            
             <div className="text-7xl flex flex-col items-center gap-3">
               {weatherData.main.temp}°C{" "}
               <p className="text-5xl">{weatherData.weather[0].main}</p>
@@ -96,11 +100,17 @@ function weather() {
               </div>
             </div>
           </div>
+          
         )}
       </div>
-      {/* <div className="fixed "><InputForm isVisible={showModal} onclose={setShowModal(false)} /></div> */}
     </div>
   );
 }
-
+ 
 export default weather;
+
+export const WeatherCondition={
+  getMain(WeatherData:WeatherData|null){
+    return WeatherData? WeatherData.weather[0].main:"";
+  }
+}

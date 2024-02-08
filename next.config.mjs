@@ -1,4 +1,10 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {};
+import { config } from 'dotenv';
 
-export default nextConfig;
+config();
+const nextconfig = {
+    env:{
+        WEATHER_API:process.env.WEATHER_API,
+    },
+
+}
+export default nextconfig;
